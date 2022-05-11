@@ -1,0 +1,91 @@
+h1 {
+    color: #fff;
+    padding: 10px;
+}
+
+body {
+    background-image: url("img/background.png");
+    background-size: 100% 150%;
+}
+
+p {
+    margin: 0;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.box {
+    background-color: #fff;
+    max-width: 400px;
+    margin: 50px auto;
+    border-radius: 5px;
+    box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+#heading {
+    background-color: #35858B;
+}
+
+input[type="checkbox"] {
+    margin: 20px;
+}
+
+input[type="text"] {
+    text-align: center;
+    height: 60px;
+    top: 10px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    font-weight: 200;
+    width: 313px;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: inset 0 -3px 0 0 #35858B;
+}
+
+.item {
+    display: flex;
+    min-height: 70px;
+    align-items: center;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.btn {
+    border-radius: 100%;
+    background-color: #35858B;
+    color: #f1f1f1;
+    height: 50px;
+    width: 50px;
+    font-size: 20px;
+}
+
+button:hover {
+    background-color: #006E7F;
+    color: white;
+}
+
+::placeholder {
+    color: grey;
+    opacity: 1;
+}
+
+input:checked+p {
+    text-decoration: line-through;
+    text-decoration-color: #35858B;
+}
+
+nav {
+    background-color: #072227;
+    text-align: center;
+}
+
+.navbar-brand {
+    margin: 10px auto;
+    font-size: 30px;
+    font-family: 'Oleo Script Swash Caps', cursive;;
+}
