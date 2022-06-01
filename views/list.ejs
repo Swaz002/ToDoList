@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps&display=swap" rel="stylesheet">
+    <script></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -19,8 +20,8 @@
     <div class="box">
         <% for(var i=0; i<it.length; i++) {%>
             <div class="item">
-                <input type="checkbox" name="tick">
-                <p> <%= it[i] %> </p>
+                            <input type="checkbox" name="tick" autocomplete="off">
+                            <p> <%= it[i] %> </p>
             </div>
         <% } %>
         <form class="item" action="/" method="post">

@@ -22,6 +22,7 @@ p {
     border-radius: 5px;
     box-shadow: 5px 5px 15px -5px rgba(0, 0, 0, 0.3);
     text-align: center;
+    padding-right: 10px;
 }
 
 #heading {
@@ -88,4 +89,14 @@ nav {
     margin: 10px auto;
     font-size: 30px;
     font-family: 'Oleo Script Swash Caps', cursive;;
+}
+
+
+
+.del:hover {
+    background-color: #072227;
+}
+
+.data {
+    min-width: 20px;
 }
