@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const { render } = require("express/lib/response");
 
 const app = express();
 
@@ -42,7 +43,16 @@ const List3 = new Item({
     items: "<-- hit this to delete an item"
 })
 
+const defaultItems = [List1, List2, List3];
 
+// List schema is the schema for different user based custom created lists
+const listSchema = {
+    name: String,
+    items: [itemSchema]
+}
+
+// model for the custom lists
+const List = mongoose.model("List", listSchema);
 
 
 
@@ -83,24 +93,65 @@ app.get("/", function(req, res) {
     
 })
 
-app.get("/work", (req, res) => {
-    res.render("list", {present: "Work list", it: [{items:"Me"}, {items: "Myself"}, {items: "I"}]});
+app.get("/:customListName", (req, res) => {
+    const customListName = req.params.customListName;
+
+    List.findOne({name: customListName}, (err, foundList) => {
+        if(!foundList) { 
+            //create new list
+            console.log("not found")
+            const list = new List({
+                name: customListName,
+                items: defaultItems
+            });
+        
+            list.save().then(() => { console.log("default items created in list") }, e => console.error(e))
+            res.redirect("/"+ customListName);
+        } 
+        else {
+            //show existing list
+            console.log("found")
+            res.render("list", {present: customListName, it: foundList.items})
+    }
+    })
+
+
 })
 
 //Using the post method to accept the inputed value from the page and work with it thereafter
 app.post("/", function (req, res) {
+    const today = new Date();
+    const options = {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+    };
+    const Day = today.toLocaleDateString("en-US", options);
+
+
     //accepting the requested data from inputed through the inputs available in the page
     const post = req.body.newListItem;
+    const listName = req.body.Button;
 
     const newItem = new Item({
         items: post
     });
 
-    //to push the present entered value in the input area to the items array (to render it as a list item later)
-    newItem.save().then(() => {console.log("saved new list item")}, e => console.error(e));
+    if(listName === Day){
+        //to push the present entered value in the input area to the items array (to render it as a list item later)
+        newItem.save().then(() => {console.log("saved new list item")}, e => console.error(e));
+    
+        //to redirect to the page reloading it as a result and also cresting the new list items...
+        res.redirect("/")
 
-    //to redirect to the page reloading it as a result and also cresting the new list items...
-    res.redirect("/")
+    } else {
+        List.findOne({name: listName}, (err, foundList) => {
+            foundList.items.push(newItem);
+            foundList.save();
+            res.redirect("/" + listName);
+        })
+    }
+
 })
 
 app.post("/delete", (req, res) => {
