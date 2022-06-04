@@ -64,7 +64,6 @@ app.get("/", function(req, res) {
     var Day = today.toLocaleDateString("en-US", options);
     // the var item is a list containing all the objects containing the datas
     Item.find((err, item) => {
-        console.log(item.length);
         if(item.length === 0) {
             //saving all the first three documents in the collection
             Item.insertMany([List1, List2, List3], () => {
@@ -76,7 +75,7 @@ app.get("/", function(req, res) {
         } else {
             //rendering out the present day value stored in var 'day' as "present" on ejs and 
             res.render("list", {present: Day, it: item});
-               
+            
         }
     },
     e => console.error(e)
@@ -103,6 +102,20 @@ app.post("/", function (req, res) {
     //to redirect to the page reloading it as a result and also cresting the new list items...
     res.redirect("/")
 })
+
+app.post("/delete", (req, res) => {
+
+    del = req.body.checkbox;
+    Item.findByIdAndRemove(del, (err) => {
+        console.log(del + "is Deleted")
+    },
+    e => console.error(e)
+    )
+
+    res.redirect("/")
+},
+e => console.error(e)
+)
 
 //to host the server on a local server of "4000" and making the browser listen to it
 app.listen(3000, function() {
