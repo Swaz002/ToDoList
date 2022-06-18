@@ -187,6 +187,6 @@ app.post("/delete", (req, res) => {
     
 
 //to host the server on a local server of "4000" and making the browser listen to it
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
     console.log("Server is online at port 3000");
 })
