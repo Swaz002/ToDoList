@@ -2,6 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const { render } = require("express/lib/response");
+const res = require("express/lib/response");
+const _ = require("lodash");
 
 const app = express();
 
@@ -94,7 +96,7 @@ app.get("/", function(req, res) {
 })
 
 app.get("/:customListName", (req, res) => {
-    const customListName = req.params.customListName;
+    const customListName = _.capitalize(req.params.customListName);
 
     List.findOne({name: customListName}, (err, foundList) => {
         if(!foundList) { 
@@ -110,7 +112,7 @@ app.get("/:customListName", (req, res) => {
         } 
         else {
             //show existing list
-            console.log("found")
+            //console.log("found")
             res.render("list", {present: customListName, it: foundList.items})
     }
     })
@@ -156,17 +158,33 @@ app.post("/", function (req, res) {
 
 app.post("/delete", (req, res) => {
 
-    del = req.body.checkbox;
-    Item.findByIdAndRemove(del, (err) => {
-        console.log(del + "is Deleted")
-    },
-    e => console.error(e)
-    )
+    const today = new Date();
+    const options = {
+        weekday: "long",
+        day: "numeric",
+        month: "long"
+    };
+    const Day = today.toLocaleDateString("en-US", options);
+    // console.log(Day);
+    const del = req.body.checkbox;
+    const listName = req.body.listName;
 
-    res.redirect("/")
-},
-e => console.error(e)
-)
+    if(listName === Day){
+        Item.findByIdAndRemove(del, (err) => {
+            console.log(del + "is Deleted")
+        },
+        e => console.error(e)
+        )
+    
+        res.redirect("/")
+    }else {
+        List.findOneAndUpdate({name: listName}, {$pull: {items: {_id: del}}},() => {
+            res.redirect("/" + listName)
+        })
+    }
+});
+
+    
 
 //to host the server on a local server of "4000" and making the browser listen to it
 app.listen(3000, function() {

@@ -12,7 +12,7 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <a href="" class="navbar-brand">ToDoList</a>
+        <a href="/" class="navbar-brand">ToDoList</a>
     </nav>
     <div class="box" id="heading">
         <h1><%= present %></h1>
@@ -25,6 +25,7 @@
                     <input name="checkbox" type="checkbox" value="<%= item._id %>" onChange="this.form.submit()">
                     <p><%= item.items %></p>
                 </div>
+                <input type="hidden" name="listName" value="<%= present %>"></input>
             </form>
         <% }) %>
 
