@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("views"))
 
 //connecting to mongoDB server
-mongoose.connect("mongodb://localhost:27017/todolistDB", () => {
+mongoose.connect("mongodb+srv://todolist-v2:ThisisaTest@cluster0.0fgb4e2.mongodb.net/todolistDB", () => {
     console.log("connected to mongo server")
 },
 e => console.error(e)
